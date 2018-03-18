@@ -1,0 +1,4 @@
+<div *ngIf="barChartData.length>0" class="chart-div">
+  <canvas class="chart-size" baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
+    [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+</div>

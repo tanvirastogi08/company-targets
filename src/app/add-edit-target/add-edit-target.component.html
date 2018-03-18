@@ -1,0 +1,84 @@
+<div class="modal-header" style="padding-left: 30px;">
+  <h4 class="modal-title pull-left" *ngIf="targetKey==undefined">Add New Target</h4>
+  <h4 class="modal-title pull-left" *ngIf="targetKey!==undefined && targetKey.length>0">Edit Target</h4>
+</div>
+<div class="modal-body" style="display: inline-block;width: 100%;padding: 3% 5%;">
+  <form #addEditTargetForm="ngForm" (ngSubmit)="addTarget(target)" novalidate>
+    <div class="form-group row">
+      <label for="name" class="col-md-12">Name</label>
+      <div class="col-md-12">
+        <input type="text" class="form-control" #name="ngModel" name="name" [(ngModel)]="target.name" minlength="2" maxlength="15"
+          [(ngModel)]="target.name" required>
+        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+          <span *ngIf="name.errors.required"> Please enter valid company name!</span>
+          <span *ngIf="name.errors.minlength"> Name must be at least 3 characters long. </span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="address" class="col-md-12">Address</label>
+      <div class="col-md-12">
+        <input type="text" class="form-control" #address="ngModel" name="address" [(ngModel)]="target.address" maxlength="20" required>
+        <div *ngIf="address.invalid && (address.dirty || address.touched)" class="alert alert-danger">
+          <span *ngIf="address.errors.required"> Please enter valid address!</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="website" class="col-md-12">Website</label>
+      <div class="col-md-12">
+        <input type="text" class="form-control" #website="ngModel" name="website" [(ngModel)]="target.website" pattern="^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$"
+          required>
+        <div *ngIf="website.invalid && (website.dirty || website.touched)" class="alert alert-danger">
+          <span *ngIf="website.errors.required"> Please enter valid URL!</span>
+          <span *ngIf="website.errors.pattern"> Please enter a valid URL! </span>
+        </div>
+      </div>
+      <div class="col-md-12"></div>
+    </div>
+    <div class="form-group row">
+      <label for="keyContacts" class="col-md-12">ContactNumber</label>
+      <div class="col-md-12">
+        <input type="text" class="form-control" #keyContacts="ngModel" [(ngModel)]="target.keyContacts" name=keyContacts pattern="[1-9][0-9]{9}"
+          required>
+        <div *ngIf="keyContacts.invalid && (keyContacts.dirty || keyContacts.touched)" class="alert alert-danger">
+          <span *ngIf="keyContacts.errors.required"> Please enter contact number!</span>
+          <span *ngIf="keyContacts.errors.pattern"> Please enter a valid contact number! </span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="currentFinancialGrowth" class="col-md-12">Financial Growth</label>
+      <div class="col-md-12">
+        <input type="text" class="form-control" max-length="3" #currentFinancialGrowth="ngModel" name="currentFinancialGrowth" [(ngModel)]="target.currentFinancialGrowth"
+          minlength="1" maxlength="3" required>
+        <div *ngIf="currentFinancialGrowth.invalid && (currentFinancialGrowth.dirty || currentFinancialGrowth.touched)" class="alert alert-danger">
+          <span *ngIf="currentFinancialGrowth.errors.required"> Please enter valid growth in percent!</span>
+          <span *ngIf="currentFinancialGrowth.errors.minlength"> Growth should not be less than 1 characters! </span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="status" class="col-md-12">Status</label>
+      <div class="col-md-12">
+        <ng-select [allowClear]="true" [items]="items" [disabled]="disabled" (data)="refreshValue($event)" (selected)="selected($event)"
+          (removed)="removed($event)" (typed)="typed($event)" placeholder="Select Status" name="status" #status="ngModel" [(ngModel)]="target.status"
+          required>
+        </ng-select>
+        <div *ngIf="status.invalid && (status.dirty || status.touched)" class="alert alert-danger">
+          <span [hidden]="!status.errors.required">Please select status!</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12 btn-set">
+      <input type="submit" *ngIf="targetKey==undefined" class="btn btn-primary save-btn" value="Save" (click)="addTargets(target)"
+        [disabled]="!addEditTargetForm.form.valid" style="float: left;margin-right: 20px; width: 75px;" />
+      <input type="submit" *ngIf="targetKey!==undefined && targetKey.length>0" class="btn btn-primary update-btn" value="Update"
+        (click)="updateTarget(targetKey,target)" [disabled]="!addEditTargetForm.form.valid" style=" float: left; margin-right: 20px;width: 75px;"
+      />
+      <input type="button" class="btn btn-warning" value="Cancel" (click)="cancel()" style="width:75px;">
+    </div>
+
+  </form>
+</div>

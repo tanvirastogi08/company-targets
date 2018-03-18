@@ -1,0 +1,60 @@
+<div>
+  <h3 style="text-align:center">Target Company List
+    <button class="btn btn-success btn-circle pull-right" (click)="add()" title="Add Targets">
+      <i class="glyphicon glyphicon-plus"></i>
+    </button>
+  </h3>
+  <div class="bordertop clearfix">
+    <div class="row" style="margin-top: 10px;overflow:auto;">
+      <div class="col-sm-12 col-md-12 col-xs-12 ">
+        <!-- <div *ngIf="targetList==undefined"> No Records Found!</div> -->
+        <table class="table table-bordered" *ngIf="targetList!==undefined && targetList.length>0">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Address</th>
+              <th>Website</th>
+              <th>Status</th>
+              <th>ContactNumber</th>
+              <th>Financial Growth</th>
+              <th>ACTIONS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of targetList">
+              <td>{{item.name}}</td>
+              <td>{{item.address}}</td>
+              <td>
+                  <!-- (click)="openLink(item.website)" target="_blank" -->
+                <a style="cursor:pointer;">{{item.website}}</a>
+              </td>
+              <td>{{item.status}}</td>
+              <td>{{item.keyContacts}}</td>
+              <td>{{item.currentFinancialGrowth}}%</td>
+
+              <td style="width: 50px;">
+                <i class="glyphicon glyphicon-edit pointer" (click)="openEditModal(item.key,item,editTarget)" title="Edit"></i>
+                <i class="glyphicon glyphicon-trash pointer" (click)="openDeleteModal(item.key,deleteConfirm)" title="Delete"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-sm-12 col-md-12 col-xs-12" style="text-align:center" *ngIf="targetList!==undefined && targetList.length>0">
+        <button type="button" class="btn btn-primary" (click)="openChart()">Financial Growth
+          <i class="fa fa-bar-chart"></i>
+        </button>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:120px;font-weight:bold;font-size:14px">Developed by: Tanvi Rastogi</div>
+  </div>
+
+  <!-- modal pop-up for delet confirmation -->
+  <ng-template #deleteConfirm>
+    <div class="modal-body text-center">
+      <p>Do you want to delete?</p>
+      <button type="button" class="btn btn-default" (click)="confirmDelete()">Yes</button>
+      <button type="button" class="btn btn-primary" (click)="decline()">No</button>
+    </div>
+  </ng-template>
